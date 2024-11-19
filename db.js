@@ -5,7 +5,8 @@ const path = require("path");
 
 //Hacemos la conexión a la base de datos por medio de sequelize
 let sequelize = new Sequelize(
-  `mysql://¨usuario:constraseña@localhost:puerto/nombre_base_datos`,
+  `mysql://root:chisqueado0517@localhost:3306/prueba_pako`,
+  // `mysql://¨usuario:constraseña@localhost:puerto/nombre_base_datos`,
   {
     logging: false,
     native: false,
@@ -46,9 +47,9 @@ sequelize.models = Object.fromEntries(capsEntries);
 const {
   User,
   Ventas,
-  Venta_Detalle,
+  VentaDetalle,
   Producto,
-  Categoria_Producto,
+  CategoriaProducto,
   Carrito,
   CorteCaja,
 } = sequelize.models;
@@ -60,6 +61,15 @@ CorteCaja.belongsTo(User);
 
 User.hasMany(Ventas);
 Ventas.belongsTo(User);
+
+Ventas.hasMany(VentaDetalle);
+VentaDetalle.belongsTo(Ventas);
+
+Producto.hasMany(VentaDetalle);
+VentaDetalle.belongsTo(Producto);
+
+CategoriaProducto.hasMany(Producto);
+Producto.belongsTo(CategoriaProducto);
 
 module.exports = {
   ...sequelize.models, //para poder importar los modelos así: const {Usuario, Producto} = require('./db.js')
