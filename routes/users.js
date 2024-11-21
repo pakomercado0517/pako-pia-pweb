@@ -8,6 +8,7 @@ router.get("/:id", usersFunctions.getUserById);
 
 //POST Methods
 router.post("/", usersFunctions.createUser);
+router.post("/login", usersFunctions.login);
 
 //PUT Methods
 

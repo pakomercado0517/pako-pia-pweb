@@ -6,6 +6,8 @@ const logger = require("morgan");
 const routes = require("./routes/index");
 const indexRouter = require("./routes/index");
 const cors = require("cors");
+const axios = require("axios");
+const session = require("express-session");
 
 const app = express();
 
@@ -19,7 +21,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "@motita69",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(express.static(path.join(__dirname, "public")));
+
+//configuramos una carpeta de archivos estáticos
+app.use("/javascripts", express.static(__dirname + "node_modules/axios/dist"));
 
 app.use(
   cors({

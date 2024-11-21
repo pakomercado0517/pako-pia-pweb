@@ -71,6 +71,12 @@ header {
   height: auto;
 }
 
+.navbar {
+  background-color: var(--primario) !important;
+  text-decoration: none !important;
+  color: white !important;
+}
+
 .logo {
   width: 90px;
   height: 90px;
@@ -86,9 +92,9 @@ header {
 }
 
 .logout {
-  width: 60px;
-  height: 60px;
-  margin: 10px;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 
 .centrar {

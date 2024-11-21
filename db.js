@@ -52,6 +52,7 @@ const {
   CategoriaProducto,
   Carrito,
   CorteCaja,
+  Rol,
 } = sequelize.models;
 
 //Aquí deben de ir las relaciones de las tablas a crear
@@ -70,6 +71,9 @@ VentaDetalle.belongsTo(Producto);
 
 CategoriaProducto.hasMany(Producto);
 Producto.belongsTo(CategoriaProducto);
+
+User.hasOne(Rol);
+Rol.belongsTo(User);
 
 module.exports = {
   ...sequelize.models, //para poder importar los modelos así: const {Usuario, Producto} = require('./db.js')
