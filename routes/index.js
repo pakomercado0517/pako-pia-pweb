@@ -6,6 +6,7 @@ const corteCajas = require("./corteCajas");
 
 // Creamos el middleware para verificar la autentificación
 const isAuthenticated = (req, res, next) => {
+  console.log("req.session", req.session);
   if (req.session.isLoggedIn) {
     return next();
   }
@@ -17,7 +18,7 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-router.get("/detalleVenta", function (req, res, next) {
+router.get("/detalleVenta", isAuthenticated, function (req, res, next) {
   res.render("layout", { title: "Detalle de venta", view: "detalleVenta" });
 });
 

@@ -10,8 +10,17 @@ module.exports = {
     }
   },
   createUser: async (req, res) => {
-    const { nombre, apellido, edad, direccion, telefono, status, email, rol } =
-      req.body;
+    const {
+      nombre,
+      apellido,
+      edad,
+      direccion,
+      telefono,
+      status,
+      email,
+      rol,
+      contraseña,
+    } = req.body;
     try {
       const user = await User.findOne({ where: { email } });
       if (user) {
@@ -25,6 +34,7 @@ module.exports = {
           telefono,
           status,
           email,
+          contraseña,
         });
         const userRol = await Rol.create({ nombre: rol });
         const rolFinal = await newUser.setRol(userRol);
@@ -43,15 +53,24 @@ module.exports = {
       res.status(400).json({ message: error.message });
     }
   },
-  login: async (req, res) => {
-    const { email, password } = req.body;
+  login: async (req, res, next) => {
+    const { email, contraseña } = req.body;
     try {
-      const userFinded = await User.findOne({ where: { email, password } });
+      const userFinded = await User.findOne({ where: { email } });
       if (userFinded) {
-        req.session.isLoggedIn = true;
-        req, (session.user = { userFinded });
-        return res.redirect("/principal");
+        if (userFinded.contraseña !== contraseña) {
+          res.status(400).json({ message: "contraseña incorrecta" });
+        } else {
+          req.session.isLoggedIn = true;
+          req.session.user = {
+            id: userFinded.id,
+            nombre: userFinded.nombre,
+            email: userFinded.email,
+          };
+        }
+        res.status(200).json(req.session.user);
       }
+      // res.status(200).send("Usuario loggeado con exito! 🤓");
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
