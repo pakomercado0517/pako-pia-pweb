@@ -56,16 +56,25 @@ module.exports = {
   login: async (req, res, next) => {
     const { email, contraseña } = req.body;
     try {
-      const userFinded = await User.findOne({ where: { email } });
+      const userFinded = await User.findOne({
+        where: { email },
+      });
+      const userRole = await Rol.findOne({ where: { userId: userFinded.id } });
+      if (!userFinded) {
+        return res
+          .status(401)
+          .json({ message: "No se encontró al usuario en el sistema." });
+      }
       if (userFinded) {
         if (userFinded.contraseña !== contraseña) {
-          res.status(400).json({ message: "contraseña incorrecta" });
+          res.status(401).json({ message: "Contraseña incorrecta" });
         } else {
           req.session.isLoggedIn = true;
           req.session.user = {
             id: userFinded.id,
             nombre: userFinded.nombre,
             email: userFinded.email,
+            rol: userRole.nombre,
           };
         }
         res.status(200).json(req.session.user);

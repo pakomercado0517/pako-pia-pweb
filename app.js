@@ -26,6 +26,11 @@ app.use(
     secret: "@motita69",
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: false,
+      secure: false,
+    },
   })
 );
 app.use(express.static(path.join(__dirname, "public")));

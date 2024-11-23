@@ -4,29 +4,37 @@ const users = require("./users");
 const ventas = require("./ventas");
 const corteCajas = require("./corteCajas");
 
-// Creamos el middleware para verificar la autentificación
+// Crea una función que sea el middleware para verificar la autentificación
 const isAuthenticated = (req, res, next) => {
   console.log("req.session", req.session);
   if (req.session.isLoggedIn) {
     return next();
   }
-  res.redirect("/login");
+  res.redirect("/");
 };
 
 /* GET home page. */
 router.get("/", (req, res) => {
-  res.render("index");
+  res.render("layout", {
+    title: "Login de la App",
+    view: "login",
+    script: "main",
+  });
 });
 
 router.get("/detalleVenta", isAuthenticated, function (req, res, next) {
   res.render("layout", { title: "Detalle de venta", view: "detalleVenta" });
 });
 
-router.get("/principal", (req, res) => {
-  res.render("layout", { title: "Principal", view: "principal" });
+router.get("/principal", isAuthenticated, (req, res) => {
+  res.render("layout", {
+    title: "Principal",
+    view: "principal",
+    script: "principal",
+  });
 });
 
-router.get("/historialVenta", (req, res) => {
+router.get("/historialVenta", isAuthenticated, (req, res) => {
   res.render("layout", { title: "Historial de Venta", view: "historialVenta" });
 });
 

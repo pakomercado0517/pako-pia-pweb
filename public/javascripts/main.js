@@ -1,11 +1,33 @@
-const user_main = document.getElementById("user_main");
-const getUser = async () => {
-  const user = await axios.get("/usuario/1");
-  console.log("user", user);
-  user_main.innerText = user.data.nombre;
+const login_email = document.querySelector(".email");
+const login_password = document.querySelector(".contraseña");
+const login_button = document.querySelector(".login_button");
+
+const userLogin = async () => {
+  try {
+    const $login = await axios.post("/usuario/login", {
+      email: login_email.value,
+      contraseña: login_password.value,
+    });
+    if ($login.data && $login.data.nombre) {
+      //Guardamos los datos del usuario loggueado en localStorage
+      localStorage.setItem("user", JSON.stringify($login.data));
+      //Redireccionamos a página llamada principal
+      window.location.href = "/principal";
+    }
+  } catch (error) {
+    console.log("error", error);
+    if (error) {
+      alert(error.response.data.message);
+      window.location.href = "/";
+    }
+  }
 };
 
-getUser();
+login_button.addEventListener("click", (event) => {
+  event.preventDefault();
+  userLogin();
+  const user = JSON.parse(localStorage.getItem("user"));
+});
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   const modals = ["pizza", "bebidas", "combos", "extras"];
