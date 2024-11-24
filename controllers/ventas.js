@@ -26,10 +26,13 @@ module.exports = {
   obtenerVentasById: async (req, res) => {
     const { userId } = req.params;
     try {
-      const ventas = await Ventas.findAll({ where: { userId } });
+      const ventas = await Ventas.findAll({
+        where: { userId },
+        include: [{ model: User }],
+      });
       res.status(200).json(ventas);
     } catch (error) {
-      res.status(400).json({ message: message.error });
+      res.status(400).json({ message: error.message });
     }
   },
 };

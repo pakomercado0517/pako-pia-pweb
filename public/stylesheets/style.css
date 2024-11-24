@@ -574,6 +574,13 @@ td {
 
 /*----------------------------------------HISTORIAL DE VENTAS--------------------------------------*/
 
+.venta_table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .texto-informacion-venta-parte1 {
   margin-top: 15px;
 }
