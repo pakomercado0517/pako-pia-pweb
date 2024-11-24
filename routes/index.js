@@ -22,8 +22,12 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/detalleVenta", isAuthenticated, function (req, res, next) {
-  res.render("layout", { title: "Detalle de venta", view: "detalleVenta" });
+router.get("/detalleVenta/:id", isAuthenticated, function (req, res, next) {
+  res.render("layout", {
+    title: "Detalle de venta",
+    view: "detalleVenta",
+    script: "detalleVenta",
+  });
 });
 
 router.get("/principal", isAuthenticated, (req, res) => {
@@ -35,7 +39,11 @@ router.get("/principal", isAuthenticated, (req, res) => {
 });
 
 router.get("/historialVenta", isAuthenticated, (req, res) => {
-  res.render("layout", { title: "Historial de Venta", view: "historialVenta" });
+  res.render("layout", {
+    title: "Historial de Venta",
+    view: "historialVenta",
+    script: "historialVenta",
+  });
 });
 
 router.use("/usuario", users);
