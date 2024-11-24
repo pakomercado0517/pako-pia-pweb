@@ -84,4 +84,17 @@ module.exports = {
       res.status(400).json({ message: error.message });
     }
   },
+  logout: (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(
+          "Error al destruir la sesión o es posible que no haya sesión iniciada",
+          err
+        );
+        return res.status(500).json({ message: "Error al cerrar la sesión" });
+      }
+      res.clearCookie("connect.sid"); //Borra la cookie de la sesión.
+      res.status(200).json({ message: "Sesión terminada con éxito" });
+    });
+  },
 };
