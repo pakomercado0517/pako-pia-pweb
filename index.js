@@ -1,5 +1,6 @@
 const server = require("./app");
 const { conn } = require("./db");
+const CProductoFunction = require("./initialDatabase/categoriaProducto");
 
 const PORT = process.env.PORT || 3001;
 
@@ -14,7 +15,8 @@ const PORT = process.env.PORT || 3001;
 
 conn.sync({ force: true }).then(() => {
   //cambiar a force:false para dejar de borrar las tablas al reiniciar el servidor
-  server.listen(PORT, () => {
+  server.listen(PORT, async () => {
+    await CProductoFunction.categoriasDb();
     console.log(`servidor listo y escuchando en el puerto ${PORT}`);
   });
 });
