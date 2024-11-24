@@ -16,9 +16,14 @@ const userLogin = async () => {
     }
   } catch (error) {
     console.log("error", error);
-    if (error) {
+    console.log("error.status", error.status);
+    if (error.status === 401) {
       alert(error.response.data.message);
       window.location.href = "/";
+    } else if (error.status === 400) {
+      alert(
+        "Usuario no encontrado en el sistema, verifica tu email e intentalo de nuevo o registrate."
+      );
     }
   }
 };

@@ -71,6 +71,10 @@ header {
   height: auto;
 }
 
+.logout_button {
+  background-color: transparent;
+}
+
 .navbar {
   background-color: var(--primario) !important;
   text-decoration: none !important;
